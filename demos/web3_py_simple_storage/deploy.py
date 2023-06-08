@@ -32,7 +32,9 @@ with open("compiled_code.json", "w") as file:
     json.dump(compiled_sol, file)
 
 # get byecode
-bytecode = compiled_sol["contracts"]["SimpleStorage.sol"]["SimpleStorage"]["evm"]["bytecode"]["object"]
+bytecode = compiled_sol["contracts"]["SimpleStorage.sol"]["SimpleStorage"]["evm"][
+    "bytecode"
+]["object"]
 
 # get abi
 abi = compiled_sol["contracts"]["SimpleStorage.sol"]["SimpleStorage"]["abi"]
@@ -40,7 +42,7 @@ abi = compiled_sol["contracts"]["SimpleStorage.sol"]["SimpleStorage"]["abi"]
 # for connecting to ganache
 w3 = Web3(Web3.HTTPProvider("HTTP://127.0.0.1:7545"))
 chain_id = 1337
-my_address = "0xe11Ee9B36BfF787608474b7846417Eb14276DEB4"
+my_address = "0x1B3422E61d4d1a32De7BA390487F0771Ad4aE737"
 private_key = os.getenv("PRIVATE_KEY")
 
 # Create the contract in python
@@ -49,10 +51,13 @@ SimpleStorage = w3.eth.contract(abi=abi, bytecode=bytecode)
 nonce = w3.eth.getTransactionCount(my_address)
 print(nonce)
 
+# SENDING A TRANSACTION TO A LOCAL BLOCKCHAIN
 # 1. Build a transaction
 # 2. Sign a transaction
 # 3. Send a transaction
 transaction = SimpleStorage.constructor().buildTransaction(
-    {"chainId": chain_id, "from": my_address, "nonce": nonce})
+    {"chainId": chain_id, "from": my_address, "nonce": nonce}
+)
 
-signed_txn = w3.eth.account.sign_transaction(transaction, private_key)
+signed_txn = w3.eth.account.sign_transaction(transaction, private_key=private_key)
+print(signed_txn)
