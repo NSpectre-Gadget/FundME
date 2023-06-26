@@ -14,7 +14,7 @@ def test_deploy():
 
 def test_updating_storage():
     # Arrange
-    account = get_account()
+    account = account()
     simple_storage = SimpleStorage.deploy({"from": account})
     # Act
     expected = 15
@@ -23,8 +23,8 @@ def test_updating_storage():
     assert expected == simple_storage.retrieve()
 
 
-def get_account():
-    if network.show_active() == "development":
-        return accounts[0]
-    else:
-        return accounts.add(config["wallets"]["from_key"])
+# def get_account():
+# if network.show_active() == "development":
+#    return accounts[0]
+# else:
+#    return accounts.add(config["wallets"]["from_key"])
