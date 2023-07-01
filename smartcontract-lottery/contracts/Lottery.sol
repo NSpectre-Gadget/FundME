@@ -24,16 +24,16 @@ contract Lottery {
         // prettier-ignore
         (
             /* uint80 roundID */,
-            int answer,
+            int256 answer,
             /*uint startedAt*/,
             /*uint timeStamp*/,
             /*uint80 answeredInRound*/
-        ) = dataFeed.latestRoundData();
+        ) = ethUsdPriceFeed.latestRoundData();
         uint256 adjustedPrice = uint256(price) * 10 ** 10; //18  decimals
         // $50, $2,000 / ETH
         // 50/2,000
         // 50 * 100000 / 2000
-        uint256 costToEnter = (usdEntryFee * 10 ** 18) / price;
+        uint256 costToEnter = (usdEntryFee * 10 ** 18) / adjustedPrice;
         return costToEnter;
     }
 
